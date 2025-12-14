@@ -11,39 +11,50 @@ go get github.com/Repeater11/go-template
 ## 快速开始
 
 ```go
+// 导入所需的包
 import "github.com/Repeater11/go-template/structure/vector"
 
-// Vector示例
+// 使用 Vector
 v := vector.NewVector(1, 2, 3)
-v.PushBack(4, 5)
+v.PushBack(4)
 vector.Sort(v)
-
-// 更多示例和API文档，请查看各模块的文档
 ```
+
+更多数据结构的使用示例，请查看各子包文档。
 
 ## 已实现
 
-- ✅ **Vector** - 动态数组，类似 C++ `std::vector`
+| 模块                         | 说明     | 文档                                                        |
+| ---------------------------- | -------- | ----------------------------------------------------------- |
+| [vector](./structure/vector) | 动态数组 | `go doc github.com/Repeater11/go-template/structure/vector` |
 
 ## 计划实现
 
-- [ ] List - 双向链表
-- [ ] Stack - 栈
-- [ ] Queue - 队列
-- [ ] Set - 集合
-- [ ] Map - 映射
+- [ ] list - 双向链表
+- [ ] stack - 栈
+- [ ] queue - 队列
+- [ ] set - 集合
+- [ ] map - 映射
 
 ## 文档
 
-查看完整文档：
+查看各模块文档：
 
 ```bash
+# Vector
 go doc github.com/Repeater11/go-template/structure/vector
+
+# 将来的其他模块...
+# go doc github.com/Repeater11/go-template/structure/list
 ```
 
 ## 测试
 
 ```bash
+# 测试所有模块
+go test ./...
+
+# 测试特定模块
 go test ./structure/vector/...
 ```
 
