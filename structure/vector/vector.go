@@ -1,5 +1,5 @@
-// Package structure 提供了通用的数据结构实现。
-package structure
+// Package vector 提供了泛型动态数组的实现。
+package vector
 
 import (
 	"cmp"

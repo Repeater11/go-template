@@ -11,12 +11,12 @@ go get github.com/Repeater11/go-template
 ## 快速开始
 
 ```go
-import "github.com/Repeater11/go-template/structure"
+import "github.com/Repeater11/go-template/structure/vector"
 
 // Vector示例
-v := structure.NewVector(1, 2, 3)
+v := vector.NewVector(1, 2, 3)
 v.PushBack(4, 5)
-structure.Sort(v)
+vector.Sort(v)
 
 // 更多示例和API文档，请查看各模块的文档
 ```
@@ -38,14 +38,13 @@ structure.Sort(v)
 查看完整文档：
 
 ```bash
-go doc github.com/Repeater11/go-template/structure
+go doc github.com/Repeater11/go-template/structure/vector
 ```
 
 ## 测试
 
 ```bash
-cd structure
-go test -v
+go test ./structure/vector/...
 ```
 
 ## 许可证
