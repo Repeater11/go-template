@@ -53,11 +53,12 @@ func (v *Vector[T]) IsEmpty() bool {
 }
 
 // PushBack 在 Vector 的末尾添加一个或多个元素。
-// PopBack 从 Vector 的末尾移除并返回最后一个元素。
-// 如果 Vector 为空，返回零值和 false。
 func (v *Vector[T]) PushBack(elements ...T) {
 	v.data = append(v.data, elements...)
 }
+
+// PopBack 从 Vector 的末尾移除并返回最后一个元素。
+// 如果 Vector 为空，返回零值和 false。
 func (v *Vector[T]) PopBack() (T, bool) {
 	var zero T
 	if v.IsEmpty() {
@@ -68,13 +69,13 @@ func (v *Vector[T]) PopBack() (T, bool) {
 	return element, true
 }
 
-// At 返回指定索引处的元素。
-// Get 返回指定索引处的元素及其存在性。
-// Set 设置指定索引处的元素的值。
-// 如果索引无效，Get 返回零值和 false，Set 返回 false。
+// At 返回指定索引处的元素，不检查边界。
 func (v *Vector[T]) At(index int) T {
 	return v.data[index]
 }
+
+// Get 安全地返回指定索引处的元素。
+// 如果索引无效，返回零值和 false。
 func (v *Vector[T]) Get(index int) (T, bool) {
 	if index < 0 || index >= len(v.data) {
 		var zero T
@@ -82,6 +83,9 @@ func (v *Vector[T]) Get(index int) (T, bool) {
 	}
 	return v.data[index], true
 }
+
+// Set 设置指定索引处的元素的值。
+// 如果索引无效返回 false。
 func (v *Vector[T]) Set(index int, value T) bool {
 	if index < 0 || index >= len(v.data) {
 		return false
@@ -91,8 +95,7 @@ func (v *Vector[T]) Set(index int, value T) bool {
 }
 
 // Insert 在指定索引处插入一个或多个元素。
-// Erase 移除指定范围内的元素 [begin, end)。
-// 如果索引无效，Insert 和 Erase 返回 false。
+// 如果索引无效返回 false。
 func (v *Vector[T]) Insert(index int, elements ...T) bool {
 	if index < 0 || index > len(v.data) {
 		return false
@@ -100,6 +103,9 @@ func (v *Vector[T]) Insert(index int, elements ...T) bool {
 	v.data = slices.Insert(v.data, index, elements...)
 	return true
 }
+
+// Erase 移除指定范围内的元素 [begin, end)。
+// 如果范围无效返回 false。
 func (v *Vector[T]) Erase(begin, end int) bool {
 	if begin < 0 || end > len(v.data) || begin >= end {
 		return false
@@ -114,8 +120,7 @@ func (v *Vector[T]) Clear() {
 }
 
 // Front 返回 Vector 的第一个元素。
-// Back 返回 Vector 的最后一个元素。
-// 如果 Vector 为空，Front 和 Back 返回零值和 false。
+// 如果 Vector 为空，返回零值和 false。
 func (v *Vector[T]) Front() (T, bool) {
 	if v.IsEmpty() {
 		var zero T
@@ -123,6 +128,9 @@ func (v *Vector[T]) Front() (T, bool) {
 	}
 	return v.data[0], true
 }
+
+// Back 返回 Vector 的最后一个元素。
+// 如果 Vector 为空，返回零值和 false。
 func (v *Vector[T]) Back() (T, bool) {
 	if v.IsEmpty() {
 		var zero T
@@ -132,12 +140,11 @@ func (v *Vector[T]) Back() (T, bool) {
 }
 
 // Capacity 返回 Vector 的当前容量。
-// Reserve 调整 Vector 的容量以至少容纳指定数量的元素。
-// Resize 调整 Vector 的大小。
-// 如果新大小大于当前大小，使用提供的值或类型的零值填充新元素。
 func (v *Vector[T]) Capacity() int {
 	return cap(v.data)
 }
+
+// Reserve 调整 Vector 的容量以至少容纳指定数量的元素。
 func (v *Vector[T]) Reserve(newCap int) {
 	if newCap > cap(v.data) {
 		newData := make([]T, len(v.data), newCap)
@@ -145,6 +152,9 @@ func (v *Vector[T]) Reserve(newCap int) {
 		v.data = newData
 	}
 }
+
+// Resize 调整 Vector 的大小。
+// 如果新大小大于当前大小，使用提供的值或零值填充新元素。
 func (v *Vector[T]) Resize(newSize int, value ...T) {
 	if newSize < 0 {
 		return
@@ -186,21 +196,23 @@ func (v *Vector[T]) Reverse() {
 }
 
 // Contains 检查 Vector 是否包含指定的元素。
-// IndexOf 返回指定元素在 Vector 中的索引，如果不存在则返回 -1。
 func Contains[T comparable](v *Vector[T], element T) bool {
 	return slices.Contains(v.data, element)
 }
+
+// IndexOf 返回指定元素在 Vector 中的索引，如果不存在则返回 -1。
 func IndexOf[T comparable](v *Vector[T], element T) int {
 	return slices.Index(v.data, element)
 }
 
-// Sort 对 Vector 中的元素进行排序。
-// 有两种重载方式：一种使用默认的排序顺序，另一种使用自定义的比较函数。
-// 默认排序适用于实现了 cmp.Ordered 接口的类型，同时是一个函数泛型。
-// 自定义的比较函数则是方法泛型。
+// Sort 使用自定义比较函数对 Vector 中的元素进行排序。
+// cmp 函数应返回负数、零或正数，分别表示 a < b、a == b 或 a > b。
 func (v *Vector[T]) Sort(cmp func(a, b T) int) {
 	slices.SortFunc(v.data, cmp)
 }
+
+// Sort 对 Vector 中可排序类型的元素进行升序排序。
+// 仅适用于实现了 cmp.Ordered 接口的类型（如 int, float64, string 等）。
 func Sort[T cmp.Ordered](v *Vector[T]) {
 	slices.Sort(v.data)
 }
