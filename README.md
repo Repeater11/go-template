@@ -29,11 +29,12 @@ vector.Sort(v)
 | [vector](./structure/vector) | 动态数组 | `go doc github.com/Repeater11/go-template/structure/vector` |
 | [deque](./structure/deque)   | 双端队列 | `go doc github.com/Repeater11/go-template/structure/deque`  |
 | [queue](./structure/queue)   | 队列     | `go doc github.com/Repeater11/go-template/structure/queue`  |
+| [stack](./structure/stack)   | 栈       | `go doc github.com/Repeater11/go-template/structure/stack`  |
 
 ## 计划实现
 
 - [ ] list - 双向链表
-- [ ] stack - 栈
+- [x] stack - 栈
 - [x] queue - 队列
 - [ ] set - 集合
 - [ ] map - 映射
@@ -52,6 +53,9 @@ go doc github.com/Repeater11/go-template/structure/deque
 # Queue
 go doc github.com/Repeater11/go-template/structure/queue
 
+# Stack
+go doc github.com/Repeater11/go-template/structure/stack
+
 # 将来的其他模块...
 # go doc github.com/Repeater11/go-template/structure/list
 ```
@@ -66,6 +70,7 @@ go test ./...
 go test ./structure/vector/...
 go test ./structure/deque/...
 go test ./structure/queue/...
+go test ./structure/stack/...
 
 # 测试覆盖率
 go test -cover ./...

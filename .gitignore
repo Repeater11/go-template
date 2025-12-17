@@ -1,0 +1,6 @@
+# Go build/test cache
+.gocache/
+
+# macOS metadata
+.DS_Store
+
